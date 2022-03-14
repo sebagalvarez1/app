@@ -10,11 +10,19 @@ const Main = (props) =>{
 
 
     }
+    const restar= ()=> {
+        setContador (contador - 1);
+    }
+    const resetear= () => {
+        setContador(0);
+    }
     
     return (       
         <main className= 'container'>
                  <p>Mi contador actual :{contador}</p>
             <button onClick={handleClick}>Aumentar</button>
+            <button onClick={restar}>Restar</button>
+            <button onClick={resetear}>Resetear</button>
             
             </main>
     
