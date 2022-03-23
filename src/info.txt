@@ -1,0 +1,12 @@
+fetch ("http://jsonplaceholder.typicode.com/users")
+.then((respuesta)=>{
+    console.log("salio bien")
+    console.log(respuesta)
+
+    const descarga= respuesta.json()
+    console.log(descarga)
+})
+.catch((error)=>{
+    console.log("salio mal")
+    console.log(error)
+})
