@@ -33,7 +33,7 @@ useEffect(()=>{
     })  
 
     .then((datos)=> {
-        const resultado = datos.map((response) => { 
+        const resultado = datos.map((response) => {  
             return response.json()
         })
        

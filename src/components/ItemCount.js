@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
-import { contexto } from "../App";
+
 
 const Contador = ({ stock, initial, onAdd }) => {
 
   const [contador, setContador] = useState(initial);
-    useContext(contexto );
+
+      
   const handleAumentar = (e) => {
     if (contador < stock) {
       setContador(contador + 1);
@@ -16,7 +17,7 @@ const Contador = ({ stock, initial, onAdd }) => {
       setContador(contador - 1);
     }
   };
-
+   
   const handleConfirmar = (e) => {
     console.log(e);
     onAdd(Contador);

@@ -1,38 +1,46 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState,useContext } from "react";
+import { Link, useParams , useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Contador from "./ItemCount";
+import { contexto } from "./CartContext";
+import { getDoc , collection , doc , where , query , getDocs } from "firebase/firestore"
 
 const ItemDetailContainer = () => {
   const [item, setItem] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [seleccionado, setSeleccionado] = useState(false);
+  const {agregarProducto} = useContext (contexto);
+  const navigate= useNavigate()
 
   useEffect(() => {
-    const pedido = fetch(`https://rickandmortyapi.com/api/character/${id}`);
 
-    pedido
-      .then((respuesta) => {
-        return respuesta.json();
-      })
-      .then((character) => {
-        setItem(character);
-      })
-      .catch(() => {
-        toast.error("Hubo un error");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
-  const onAdd = (unidadSeleccionada) => {
+
+    const productsCollection = collection(db, "productos")
+    const miFiltro = query(productsCollection,where("id","==",Number(id)))
+    const documentos = getDocs(miFiltro)
+
+    documentos
+    .then(respuesta => setItem(respuesta.docs.map(doc=>doc.data())[0]))
+    .catch(error => toast.error("Error al obtener los productos"))
+    .finally(() => setLoading(false))
+
+   
+  },[id])
+  
+   const onAdd = (unidadSeleccionada) => {
     console.log("On Add desde el itemdetailcontainer");
     if (unidadSeleccionada != undefined) {
       setSeleccionado(unidadSeleccionada);
     }
-  };
-  return (
+   }
+   const handleClick = (e) => {
+    e.preventDefault()
+    console.log("Click del Link/Boton")
+    agregarProducto(item,seleccionado)
+    navigate("/carrito");
+  }
+   return (
     <div>
       <h2>{item.name}</h2>
 
@@ -43,9 +51,11 @@ const ItemDetailContainer = () => {
           ? "ya se selecciono algo!"
           : "no se eligio ninguna cantidad"}
       </p>
-      {seleccionado ? <Link to="/carrito">Carrito</Link> : null}
+      {seleccionado ? <Link onClick={handleClick} to="/carrito">carrito</Link> : null}
     </div>
   );
-};
+        }
+      
+
 
 export default ItemDetailContainer;

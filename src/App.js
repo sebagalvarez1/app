@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./estilos.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Main from "./Main";
 import NavBar from "./components/NavBar";
-import Contador from "./components/ItemCount";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter } from "react-router-dom";
-import { createContext } from "react";
+import MiProvider from "./components/CartContext"
 
-export const contexto = createContext([{id:1,titulo:"hola"},{id:2,titulo:"chau"}]);
-const { Provider } = contexto;
 
-console.log(contexto);
 
-function App() {
+
+function App() { 
   return (
+  <MiProvider>
     <BrowserRouter>
       <NavBar />
       <Header />
@@ -24,6 +22,7 @@ function App() {
       <Main nombre="Sebastian" apellido="Alvarez" />
       <ToastContainer />
     </BrowserRouter>
+  </MiProvider> 
   );
 }
 export default App;
